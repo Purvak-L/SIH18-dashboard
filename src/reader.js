@@ -26,6 +26,18 @@ function send_params() {
 	no_drones = document.getElementById("no_drones").value;
 	comm_range = document.getElementById("comm_range").value;
 	server_range = document.getElementById("server_range").value;
+
+	var sim_params = {
+	"type": "sim_params",
+	"level": curr_level,
+	"height": height,
+	"overlap": overlap,
+	"swarm" : [no_drones,comm_range,server_range] }
+
+	console.log(sim_params);
+
+	ws2 = new WebSocket("ws://127.0.0.1:50008");
+	ws2.onopen = () => ws2.send(JSON.stringify(sim_params));
 	// console.log(overlap,no_drones);
 	// return false;
 	// TODO: send data to server    
@@ -56,13 +68,14 @@ function doLoad() {
 
     	// to handle drone status data (e.g. for main page table)
     	if (data.type == "drones") {
-    		// console.log('drone locations received');
+    		console.log(data);
     		setDroneTableData(data);
     		set_drone_data_flag = 1;
     	}
     	// to handle image data 
     	else if (data.type == "bg-img") {
-    		console.log('img data recieved');
+    		// console.log('img data received');
+    		console.log(data);
     		im.src = "data:image/png;base64," + data.img_data;
     	}
     	// to handle relay points data
@@ -72,6 +85,7 @@ function doLoad() {
         // im.src = "data:image/png;base64," + evt.data;
         // console.log("data:image/png;base64," + evt.data);
     }
+    //ws.close();
 }
 
 function setDroneTableData(data) {

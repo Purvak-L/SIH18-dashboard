@@ -23,9 +23,9 @@ function updateCoords(c) {
 	
 };
 
-jQuery(window).load(function(){
-    $("#accordion").accordion({autoHeight: false,navigation: true});
-});
+// jQuery(window).load(function(){
+//     $("#accordion").accordion({autoHeight: false,navigation: true});
+// });
 
 function checkCoords() {
     if (parseInt($('#w').val())) return true;
