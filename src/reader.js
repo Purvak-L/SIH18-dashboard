@@ -1,3 +1,5 @@
+paramsobj = {height:400, overlap:25, no_drones:4, comm_range:200, time_of_flight: 600, x1:0, y1:0, x2:0, y2:0};
+
 var drone_stats_str = '';
 var curr_level = -1; 
 
@@ -23,24 +25,30 @@ var drone_loc = {
 };
 
 function send_params() {
+
 	console.log('entered send_params');
-	height = document.getElementById("height").value;
-	overlap = document.getElementById("overlap").value;
-	no_drones = document.getElementById("no_drones").value;
-	comm_range = document.getElementById("comm_range").value;
-	time_of_flight = document.getElementById("time_of_flight").value;
+	paramsobj.height = document.getElementById("height").value;
+	paramsobj.overlap = document.getElementById("overlap").value;
+	paramsobj.no_drones = document.getElementById("no_drones").value;
+	paramsobj.comm_range = document.getElementById("comm_range").value;
+	paramsobj.time_of_flight = document.getElementById("time_of_flight").value;
+	paramsobj.x1 = localStorage.getItem("x1");
+	paramsobj.y1 = localStorage.getItem("y1");
+	paramsobj.x2 = localStorage.getItem("x2");
+	paramsobj.y2 = localStorage.getItem("y2");
 
 	var sim_params = {
 	"type": "sim_params",
 	"level": curr_level,
-	"height": height,
-	"overlap": overlap,
-	"swarm" : [no_drones,comm_range,time_of_flight] }
+	"height": paramsobj.height,
+	"overlap": paramsobj.overlap,
+	"swarm" : [paramsobj.no_drones,paramsobj.comm_range,paramsobj.time_of_flight],
+	"select_coords" : [paramsobj.x1, paramsobj.y1, paramsobj.x2, paramsobj.y2] }
 
 	console.log(sim_params);
 
-	// ws2 = new WebSocket("ws://127.0.0.1:50008");
-	ws2 = new WebSocket("ws://172.20.10.2:50010");
+	ws2 = new WebSocket("ws://127.0.0.1:50011");
+	// ws2 = new WebSocket("ws://172.20.10.2:50010");
 	ws2.onopen = () => ws2.send(JSON.stringify(sim_params));
 }
 
@@ -50,7 +58,7 @@ function set_level(number) {
 }
 
 function doLoad() {
-	console.log('entered doload');
+	// console.log(allcookies);
 	if (location.href.split("/").slice(-1) == "index.html") {
 			disp = document.getElementById("main-image");
     		dispCtx = disp.getContext("2d");
@@ -60,10 +68,10 @@ function doLoad() {
     		disp.setAttribute("height", im.height);
     		dispCtx.drawImage(this, 0, 0);
   		};	
-	} 
+	}
     
-    ws = new WebSocket("ws://172.20.10.2:50010");
-    // ws = new WebSocket("ws://127.0.0.1:50008");
+    // ws = new WebSocket("ws://172.20.10.2:50010");
+    ws = new WebSocket("ws://127.0.0.1:50011");
     ws.onmessage = function (evt) {
     	// console.log(evt.data);
     	data = JSON.parse(evt.data);
@@ -106,10 +114,10 @@ function doLoad() {
     	getWeatherStatus(function(weather){
     		console.log(weather);
     	if (weather.weather[0].main == 'Haze' || weather.weather[0].main == 'Rain' || weather.weather[0].main == 'Smoke' ) {
-        		document.getElementById('weather_tip').innerHTML = '<div class="alert alert-danger" role="alert">There appears to be some '+weather.weather[0].main+'. It is not safe to plan a mission.</div>';  		
+        		document.getElementById('weather_tip').innerHTML = '<div class="alert alert-danger" role="alert">You\'re in '+weather.name+' and there appears to be some '+weather.weather[0].main+'. It is not safe to plan a mission.</div>';  		
         	}
         	else {
-        		document.getElementById('weather_tip').innerHTML = '<div class="alert alert-success" role="alert">The weather looks fine. It is safe to plan a mission.</div>';  			
+        		document.getElementById('weather_tip').innerHTML = '<div class="alert alert-success" role="alert">You\'re in '+weather.name+' and the weather looks fine. It is safe to plan a mission.</div>';  			
         	}
     	});
     	
