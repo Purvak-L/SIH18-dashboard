@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
   </head>
-  <body class="app">
+  <body class="app" onload="doLoad()">
     <!-- @TOC -->
     <!-- =================================================== -->
     <!--
@@ -465,13 +465,35 @@
         <!-- ### $App Screen Content ### -->
         <main class='main-content bgc-grey-100'>
           <div id='mainContent'></div>
+          <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    <h4 class="c-grey-900 mB-20">Bootstrap Data Table</h4>
+                    <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Label</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                            <th>Associated Drone</th>
+                            <th>Est. Time</th>
+                          </tr>
+                        </thead>
+                        <tbody id="grid_table_body"></tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+            </div>
         </main>
-
         <!-- ### $App Screen Footer ### -->
         <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
           <span>Copyright © 2017 Designed by <a href="https://colorlib.com" target='_blank' title="Colorlib">Colorlib</a>. All rights reserved.</span>
         </footer>
       </div>
     </div>
+    <script type="text/javascript" src="reader.js"></script>
   </body>
 </html>

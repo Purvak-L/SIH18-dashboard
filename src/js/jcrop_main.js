@@ -16,8 +16,7 @@ function updateCoords(c) {
     $('#y2').val(c.y2);
     var rx = 200 / c.w; // 200 - preview box size
     var ry = 200 / c.h;
-	
-	console.log("TEST");
+	// console.log("TEST");
 	console.log(c.x+":"+c.y+":"+c.x2+":"+c.y2);
     document.getElementById("latest_coordinates").innerHTML = "<br>Located Co-ordinates: "+c.x+":"+c.y+":"+c.x2+":"+c.y2;
 	

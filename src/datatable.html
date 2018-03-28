@@ -57,71 +57,6 @@
   <body class="app">
 
 
-    <!--Script for polygons on Google Maps object-->
-      <script type="text/javascript">
-    var geocoder;
-var map;
-var polygonArray = [];
-
-function initializeMapSelector() {
-  map = new google.maps.Map(
-    document.getElementById("map_canvas"), {
-      center: new google.maps.LatLng(37.4419, -122.1419),
-      zoom: 13,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-  var drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.POLYGON,
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: [
-        google.maps.drawing.OverlayType.MARKER,
-        google.maps.drawing.OverlayType.CIRCLE,
-        google.maps.drawing.OverlayType.POLYGON,
-        google.maps.drawing.OverlayType.POLYLINE,
-        google.maps.drawing.OverlayType.RECTANGLE
-      ]
-    },
-    /* not useful on jsfiddle
-    markerOptions: {
-      icon: 'images/car-icon.png'
-    }, */
-    circleOptions: {
-      fillColor: '#ffff00',
-      fillOpacity: 1,
-      strokeWeight: 5,
-      clickable: false,
-      editable: true,
-      zIndex: 1
-    },
-    polygonOptions: {
-      fillColor: '#BCDCF9',
-      fillOpacity: 0.5,
-      strokeWeight: 2,
-      strokeColor: '#57ACF9',
-      clickable: false,
-      editable: false,
-      zIndex: 1
-    }
-  });
-  console.log(drawingManager)
-  drawingManager.setMap(map)
-
-  google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-    document.getElementById('info').innerHTML += "polygon points:" + "<br>";
-    for (var i = 0; i < polygon.getPath().getLength(); i++) {
-      document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
-    }
-    polygonArray.push(polygon);
-    console.log(polygon);
-  });
-
-}
-  </script>
-
-    <!--Google Maps script ends here-->
-
     <!-- @TOC -->
     <!-- =================================================== -->
     <!--
@@ -149,6 +84,10 @@ function initializeMapSelector() {
           loader.classList.add('fadeOut');
         }, 300);
       });
+
+      function openWin() {
+    window.open("gmap_select.html");
+}
     </script>
 
     <!-- @App Content -->
@@ -589,48 +528,27 @@ function initializeMapSelector() {
                           <h6 class="lh-1">Please select an area to explore</h6>
                         </div>
                         <div class="layer w-100">
-
-                          <!-- <div id="world-map-marker"></div> -->
-                        <div><img src="select_area_files/files/image.jpg" id="cropbox1" /></div>
+                        <div>
+                          <img src="select_area_files/files/select_area_bg.png" id="cropbox1" width="800" />
+                        </div>
                         <div id="latest_coordinates"></div>
-
-
-      
-      
+                        <br>
+                        <div class="peer">
+                          <h4>Select co-rdinates on map: </h4>
+                        <button type="button" class="btn cur-p btn-success" href="gmap_select.html" onclick="openWin()">Map Selection</button>
                         </div>
-                      </div></div>
 
-                      <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
-                      <div class="layers">
-                        <div class="layer w-100 mB-10">
-                          <h6 class="lh-1">Please select an area to explore</h6>
-                        </div>
-                        <div class="layer w-100">
-
-                          <!-- <div id="world-map-marker"></div> -->
-                        <!-- <div><img src="select_area_files/files/image.jpg" id="cropbox2" /></div>
-                        <div id="latest_coordinates"></div> -->
-                        <div id="map_canvas" style=" border: 2px solid #3872ac;"></div>
-                          <div id="info"></div> 
-
-
-      
-      
                         </div>
                       </div>
-                    </div>
+              </div>
 
 
-
-
-
-
-            <div class="container-fluid">
+            <!-- <div class="container-fluid">
               <h4 class="c-grey-900 mT-10 mB-30">Basic Tables</h4>
               <div class="row">
                 <div class="col-md-12">
                   <div class="bgc-white bd bdrs-3 p-20 mB-20">
-                    <!-- <h4 class="c-grey-900 mB-20">Simple Table</h4> -->
+                    
                     <p>Please choose the area for your mission. Available options currently are: <code class="highlighter-rouge">Simulator</code> and <code class="highlighter-rouge">Google Maps</code>.</p>
                     <table class="table">
                       <thead>
@@ -641,7 +559,7 @@ function initializeMapSelector() {
                       </thead>
                       <tbody>
                         <tr>
-                          <!--Simulator td starts-->
+                          
                           <td>
                             <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
                               <div class="layers">
@@ -655,9 +573,8 @@ function initializeMapSelector() {
                               </div>
                             </div>
                           </td>
-                          <!--Simulator td ends-->
-                          <!--Map td starts-->
-                        <td>
+                          
+                          <td>
                             <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
                               <div class="layers">
                                 <div class="layer w-100 mB-10" onclick="initializeMapSelector()">
@@ -665,24 +582,19 @@ function initializeMapSelector() {
                                 </div>
                                 <div class="layer w-100">
                                   <div id="map_canvas2" style=" border: 2px solid #3872ac;"></div>
-                          <div id="info"></div> 
-                          
+                                  <div id="info"></div> 
                                 </div>
                               </div>
                             </div>
                           </td> 
-                         
-                          <!--Map td ends-->
+
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
-            </div>
-
-      
-<!--            #put content here-->
+            </div> -->
             </div>
           </div>
         </main>
