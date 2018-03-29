@@ -1,4 +1,4 @@
-paramsobj = {height:400, overlap:25, no_drones:4, comm_range:200, time_of_flight: 600, x1:0, y1:0, x2:0, y2:0};
+paramsobj = {height:0, overlap:0, no_drones:0, comm_range:0, time_of_flight: 0, x1:0, y1:0, x2:0, y2:0};
 
 var drone_stats_str = '';
 var curr_level = -1; 
@@ -24,6 +24,20 @@ var drone_loc = {
 	]
 };
 
+function check_mission_status() {
+	if (paramsobj.x1 == 0 || paramsobj.y1 == 0 || paramsobj.x2 == 0 || paramsobj.y2 == 0 || paramsobj.height == 0 || paramsobj.overlap == 0 || paramsobj.no_drones == 0 || paramsobj.comm_range == 0 || paramsobj.time_of_flight == 0) {
+		document.getElementById('mission_button').innerHTML = '<button type="button" class="btn cur-p btn-danger"></button>';
+		document.getElementById('mission_ready_state').innerHTML ='<h6 class="lh-1">Status: <span style="color: #ff3f80">NOT READY</span></h6>';
+	}
+}
+
+function start_mission() {
+	var start_mission = {
+		"type" : "start"
+	}
+	ws.send(JSON.stringify(start_mission));
+}
+
 function send_params() {
 
 	console.log('entered send_params');
@@ -47,9 +61,9 @@ function send_params() {
 
 	console.log(sim_params);
 
-	ws2 = new WebSocket("ws://127.0.0.1:50011");
-	// ws2 = new WebSocket("ws://172.20.10.2:50010");
-	ws2.onopen = () => ws2.send(JSON.stringify(sim_params));
+	// ws2 = new WebSocket("ws://127.0.0.1:50011");
+	// ws2 = new WebSocket("ws://192.168.43.86:8080");
+	ws.send(JSON.stringify(sim_params));
 }
 
 function set_level(number) {
@@ -59,6 +73,7 @@ function set_level(number) {
 
 function doLoad() {
 	// console.log(allcookies);
+	check_mission_status();
 	if (location.href.split("/").slice(-1) == "index.html") {
 			disp = document.getElementById("main-image");
     		dispCtx = disp.getContext("2d");
@@ -70,13 +85,15 @@ function doLoad() {
   		};	
 	}
     
-    // ws = new WebSocket("ws://172.20.10.2:50010");
-    ws = new WebSocket("ws://127.0.0.1:50011");
+    // ws = new WebSocket("ws://127.0.0.1:50011");
+    ws = new WebSocket("ws://172.20.10.2:8080");
+   
     ws.onmessage = function (evt) {
+    	console.log(evt.data)
     	// console.log(evt.data);
     	data = JSON.parse(evt.data);
     	
-    	// to handle drone status data (e.g. for main page table)
+    	// to handle drone status data (e.g. for main page table
     	if (data.type == "drones") {
     		console.log(data);
     		if (location.href.split("/").slice(-1) == "index.html") {
@@ -107,6 +124,10 @@ function doLoad() {
     		conn_status_json = data;
     		console.log(conn_status_json);
     		// console.log(data);
+    	}
+    	else if (data.type == "ready") {
+    		document.getElementById('mission_button').innerHTML = '<button type="button" class="btn cur-p btn-success" onclick="start_mission()">Start mission</button>';
+			document.getElementById('mission_ready_state').innerHTML ='<h6 class="lh-1">Status: <span style="color: #008975">READY</span></h6>';
     	}   
     }
     if (document.getElementById('weather_tip')){

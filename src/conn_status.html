@@ -5,15 +5,15 @@
 
     <style type="text/css">
         #mynetwork {
-            width: 600px;
-            height: 400px;
+            width: 100%;
+            height: 100%;
             border: 1px solid lightgray;
             background-image: url('bg.jpg');
         }
     </style>
 </head>
 <body onload="doLoad()">
-    <script type="text/javascript" src="reader.js"></script>
+    <!-- <script type="text/javascript" src="reader.js"></script> -->
 <div id="mynetwork"></div>
 
 <script type="text/javascript">
@@ -21,17 +21,23 @@
     var conn_status_json ;
 
     function doLoad() {
+    
     // ws = new WebSocket("ws://192.168.43.86:50008");
-    ws = new WebSocket("ws://127.0.0.1:50008");
+    ws = new WebSocket("ws://127.0.0.1:50011");
     ws.onmessage = function (evt) {
         // console.log(evt.data);
         data = JSON.parse(evt.data);
-        if (data.type == "drone_conn") {
+        if (data.type == "drones") {
+            connections = data.connection;
+            number_of_drones = data.drones.length;
+            var x_coords = [];
+            var y_coords = [];
+            var drone_ids = [];
 
             function drawNodes(n,x_,y_){  
              for (i = 0; i < n; i++) {
                 // console.log(x_[i]+" "+y_[i]);
-                 nodes.add([{x:x_[i],y:y_[i],id: i, label: "drone "+i, shape: 'image', image: 'drone_marker_dead.png'}]);
+                 nodes.add([{x:x_[i],y:y_[i],id: i, label: "#"+drone_ids[i], shape: 'image', image: 'drone_marker_dead.png'}]);
                 }
             } 
 
@@ -46,7 +52,12 @@
                  nodes.update([{id: node, shape: 'image', image: 'drone_marker_alive.png'}]) ;  
             }
 
-            conn_status_json = data;
+            for (var i = 0; i < number_of_drones; i++) {
+                x_coords.push(data.drones[i].est_loc[0]);
+                y_coords.push(data.drones[i].est_loc[1]);
+                drone_ids.push(data.drones[i].id);
+            }
+
             // console.log(conn_status_json);
             var nodes = new vis.DataSet([]);
             var edges = new vis.DataSet([]);
@@ -54,24 +65,19 @@
             // create a network
             var container = document.getElementById('mynetwork'); 
                  
-            var x = [240, 200, 300, 500];
-            var y = [300, 250, 100, 50];
-            drawNodes(4,x,y);
+            drawNodes(number_of_drones,x_coords,y_coords);
                  
             var data = {
             nodes: nodes,
             edges: edges
             };
                  
-            var options = {}    
+            var options = {}   
             
-            var obj = JSON.parse('{"connection":["1,2","1,0","1,3"]}');
-            console.log(conn_status_json);
-
             var network = new vis.Network(container, data, options);
             
-            for(i = 0; i < obj.connection.length; i++) {
-                var x = obj.connection[i].split(",");
+            for(i = 0; i < connections.length; i++) {
+                var x = connections[i].split(",");
                 drawEdges(x[0], x[1]);
                 }     
             }

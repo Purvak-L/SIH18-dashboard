@@ -16,25 +16,12 @@ function updateCoords(c) {
     $('#y2').val(c.y2);
     var rx = 200 / c.w; // 200 - preview box size
     var ry = 200 / c.h;
-	// console.log("TEST");
-	// console.log(c.x+":"+c.y+":"+c.x2+":"+c.y2);
     document.getElementById("latest_coordinates").innerHTML = "<br>Located Co-ordinates: "+c.x+":"+c.y+":"+c.x2+":"+c.y2;
-    paramsobj.x1 = c.x;
-    paramsobj.y1 = c.y;
-    paramsobj.x2 = c.x2;
-    paramsobj.y2 = c.y2;
     localStorage.setItem("x1",c.x);
     localStorage.setItem("y1",c.y);
     localStorage.setItem("x2",c.x2);
     localStorage.setItem("y2",c.y2);
-    
-    // document.cookie = "x1="+c.x+";y1="+c.y+";x2="+c.x2+";y2="+c.y2;
-    // console.log(document.cookie);
 };
-
-// jQuery(window).load(function(){
-//     $("#accordion").accordion({autoHeight: false,navigation: true});
-// });
 
 function checkCoords() {
     if (parseInt($('#w').val())) return true;

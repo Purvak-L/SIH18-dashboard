@@ -162,16 +162,7 @@
                 </span>
                 <span class="title">Relay Points</span>
               </a>
-            </li>
-              <li class="nav-item">
-              <a class='sidebar-link' href="sigin.html">
-                <span class="icon-holder">
-                  <i class="c-brown-500 ti-email"></i>
-                </span>
-                <span class="title">Drone Positions</span>
-              </a>
-            </li>
-              
+            </li>  
               <li class="nav-item">
               <a class='sidebar-link' href="chat.html">
                 <span class="icon-holder">
@@ -194,15 +185,6 @@
                 <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
                   <i class="ti-menu"></i>
                 </a>
-              </li>
-              <li class="search-box">
-                <a class="search-toggle no-pdd-right" href="javascript:void(0);">
-                  <i class="search-icon ti-search pdd-right-10"></i>
-                  <i class="search-icon-close ti-close pdd-right-10"></i>
-                </a>
-              </li>
-              <li class="search-input">
-                <input class="form-control" type="text" placeholder="Search...">
               </li>
             </ul>
             <ul class="nav-right">
@@ -297,14 +279,14 @@
                   <!-- #Bounce Rate ==================== -->
                   <div class='col-md-3'>
                     <div class="layers bd bgc-white p-20">
-                      <div class="layer w-100 mB-10">
-                        <h6 class="lh-1">Status: <span style="color: #00ff88">Ready</span></h6>
+                      <div class="layer w-100 mB-10" id="mission_ready_state">
+                        <h6 class="lh-1">Status: <span style="color: #008975">Ready</span></h6>
                       </div>
                       <div class="layer w-100">
                         <div class="peers ai-sb fxw-nw">
                         
-                          <div class="peer">
-                            <button type="button" class="btn cur-p btn-danger" onclick="send_params()">Start mission</button>
+                          <div class="peer" id="mission_button"> 
+                            <button type="button" class="btn cur-p btn-success" onclick="send_params()">Start mission</button>
                           </div>
                         </div>
                       </div>
@@ -568,9 +550,13 @@
                         <tbody id="grid_table_body"></tbody>
                       </table>
                   </div>
+                  <div class="ta-c bdT w-100 p-20">
+                    <a href="/buttons.html">Load more details</a>
+                  </div>
                 </div>
 
             </div>
+            
           </div>
               
 
