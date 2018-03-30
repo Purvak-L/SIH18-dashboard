@@ -4,27 +4,77 @@
   <title>GMAP TEST</title>
   <style type="text/css">
     html,
-    body,
     #map_canvas {
-      height: 500px;
-      width: 500px;
+      height: 100%;
+      width: 100%;
       margin: 0px;
-      padding: 0px
+      padding: 0px;
+    }
+    body {
+      padding: 20;
+    }
+    .button {
+      background-color: #4CAF50; 
+      border: none;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 12px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px
     }
   </style>
 </head>
 
 <body>
-
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
   <script type="text/javascript">
-    var geocoder;
+
+    function getWeatherStatus(callback) {
+      var getIP = 'http://ip-api.com/json/';
+      var openWeatherMap = 'http://api.openweathermap.org/data/2.5/weather'
+
+      $.getJSON(getIP).done(function(location) {
+        
+          $.getJSON(openWeatherMap, {
+              lat: area_lat,
+              lon: area_long,
+              units: 'metric',
+              APPID: '7ebb67f0c260b3f89aaa1ebc0adf4471'
+          }).done(function(weather) {
+            if (weather.wind.speed > 6) {
+            console.log('Unsafe');
+            }
+            else {
+            console.log('Safe');
+            }
+              console.log(weather.wind.speed);
+              console.log(weather.weather.length);
+                for (var i = 0; i < weather.weather.length; i++) {
+                  console.log(weather);
+                  console.log(weather.weather[i].main);
+                
+                  //return ''+weather.weather[i].main;
+                    
+                }
+              callback(weather);
+          })
+      })
+    }
+
+var geocoder;
 var map;
 var polygonArray = [];
+var area_lat;
+var area_long;
 
 function initialize() {
   map = new google.maps.Map(
     document.getElementById("map_canvas"), {
-      center: new google.maps.LatLng(37.4419, -122.1419),
+      center: new google.maps.LatLng(23.0225, 72.5714),
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
@@ -67,17 +117,37 @@ function initialize() {
   drawingManager.setMap(map)
 
   google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-    document.getElementById('info').innerHTML += "polygon points:" + "<br>";
+    // document.getElementById('info').innerHTML += "<br>";
+    document.getElementById('info').innerHTML = '';
     for (var i = 0; i < polygon.getPath().getLength(); i++) {
+
       document.getElementById('info').innerHTML += polygon.getPath().getAt(i).toUrlValue(6) + "<br>";
+      latlong = polygon.getPath().getAt(i).toUrlValue(6);
+      console.log(latlong);
+      area_lat = latlong.split(',')[0];
+      area_long = latlong.split(',')[1];
     }
     polygonArray.push(polygon);
+    getWeatherStatus(function(weather){
+        console.log(weather);
+        document.getElementById('location_name').innerHTML = 'Selected area appears to be of <strong>'+weather.name+'</strong>';
+      });
   });
 
 }
 google.maps.event.addDomListener(window, "load", initialize);
   </script>
 
+
+  <h3 style="font-family: Helvetica">Select an area to explore:</h3>
   <div id="map_canvas" style=" border: 2px solid #3872ac;"></div>
-  <div id="info"></div> 
+  <div>
+    <h3 style="font-family: Helvetica;">Identified points:</h3>
+  </div>
+  <div id="info" style="font-family: Helvetica">None</div> 
+  <br>
+  <div id="location_name" style="font-family: Helvetica"></div>
+  <br>
+  <button onclick="window.location.href='/datatable.html'" class="button">Done</button>
+
 </body>

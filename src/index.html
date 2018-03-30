@@ -101,12 +101,12 @@
                 <a class="sidebar-link td-n" href="index.html">
                   <div class="peers ai-c fxw-nw">
                     <div class="peer">
-                      <div class="logo">
-                        <img src="assets/images/mu.png" alt="" width="80%">
+                      <div class="logo" style="padding: 10px">
+                        <img src="assets/images/mu.png" alt="" width="100%" >
                       </div>
                     </div>
                     <div class="peer peer-greed">
-                      <h5 class="lh-1 mB-0 logo-text">μ-FALCON</h5>
+                      <h4 class="lh-1 mB-0 logo-text">μ-FALCON</h4>
                     </div>
                   </div>
                 </a>
@@ -131,10 +131,10 @@
           grid_display - buttons
           -->
           <ul class="sidebar-menu scrollable pos-r">
-            <li class="nav-item mT-30 active">
+            <li class="nav-item mT-20 active">
               <a class="sidebar-link" href="index.html">
                 <span class="icon-holder">
-                  <i class="c-blue-500 ti-home"></i>
+                  <i class="c-green-500 ti-home"></i>
                 </span>
                 <span class="title">Dashboard</span>
               </a>
@@ -142,7 +142,7 @@
             <li class="nav-item">
               <a class='sidebar-link' href="signup.html">
                 <span class="icon-holder">
-                  <i class="c-brown-500 ti-email"></i>
+                  <i class="c-green-500 ti-layout-list-thumb"></i>
                 </span>
                 <span class="title">Swarm Status</span>
               </a>
@@ -150,27 +150,27 @@
               <li class="nav-item">
               <a class='sidebar-link' href="datatable.html">
                 <span class="icon-holder">
-                  <i class="c-brown-500 ti-email"></i>
+                  <i class="c-green-500 ti-pencil"></i>
                 </span>
                 <span class="title">Select Area</span>
               </a>
             </li>
               <li class="nav-item">
-              <a class='sidebar-link' href="calender.html">
+              <a class='sidebar-link' href="conn_status.html">
                 <span class="icon-holder">
-                  <i class="c-brown-500 ti-email"></i>
+                  <i class="c-green-500 ti-map"></i>
                 </span>
-                <span class="title">Relay Points</span>
+                <span class="title">Network Status</span>
               </a>
             </li>  
-              <li class="nav-item">
+              <!-- <li class="nav-item">
               <a class='sidebar-link' href="chat.html">
                 <span class="icon-holder">
                   <i class="c-brown-500 ti-email"></i>
                 </span>
                 <span class="title">Weather</span>
               </a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -207,6 +207,9 @@
           <div id='mainContent'>
           <div class="masonry-sizer col-md-12" id="weather_tip">
             <!-- <div class="alert alert-success" role="alert">This is a success alert—check it out!</div>   -->
+          </div>
+          <div class="masonry-sizer col-md-12" id="drone_tip">
+            <!-- <div class="alert alert-success" role="alert"></div>   -->
           </div>
 
             <div class="row gap-20 masonry pos-r">
@@ -306,10 +309,13 @@
                           <h6 class="lh-1">Current View</h6>
                         </div>
                         <div class="layer w-100" style="width: 50px; margin: auto;"> 
-
-                          <!-- <div id="world-map-marker"></div> -->
                           <!-- <div id="main-image"><img src="./assets/images/index_map.png" width="100%"></div> -->
-                          <canvas id="main-image" width="200"></canvas>
+
+                          <!-- uncomment this for image from json data -->
+                          <!-- <canvas id="main-image" width="200"></canvas> -->
+
+                          <img src="main-curr-view.png">
+                          <!-- <img src="http://192.168.43.78:5000/calc"> -->
                         </div>
                       </div>
                     </div>
@@ -378,31 +384,6 @@
                             </div>
 
                           </div>
-
-
-
-                          <!-- Pie Charts -->
-                         <!--  <div class="peers pT-20 mT-20 bdT fxw-nw@lg+ jc-sb ta-c gap-10">
-                            <div class="peer">
-                              <div class="easy-pie-chart" data-size='80' data-percent="75" data-bar-color='#f44336'>
-                                <span></span>
-                              </div>
-                              <h6 class="fsz-sm">New Users</h6>
-                            </div>
-                            <div class="peer">
-                              <div class="easy-pie-chart" data-size='80' data-percent="50" data-bar-color='#2196f3'>
-                                <span></span>
-                              </div>
-                              <h6 class="fsz-sm">New Purchases</h6>
-                            </div>
-                            <div class="peer">
-                              <div class="easy-pie-chart" data-size='80' data-percent="90" data-bar-color='#ff9800'>
-                                <span></span>
-                              </div>
-                              <h6 class="fsz-sm">Bounce Rate</h6>
-                            </div>
-                          </div> -->
-
 
                         </div>
                       </div>
@@ -531,7 +512,7 @@
                 </div>
               </div>
 
-              <div class="masonry-item col-md-7">
+              <div class="masonry-item col-md-6">
               <div class="container-fluid">
               <div class="row">
                   <div class="bgc-white bd bdrs-3 p-20 mB-20">
@@ -558,6 +539,23 @@
             </div>
             
           </div>
+
+          <div class="masonry-item col-md-6">
+                <div class="bgc-white p-20 bd">
+                  <h6 class="c-grey-900">Progress</h6>
+                  <div class="mT-30">
+                    <!-- Progress Bars -->
+                    <div class="layers">
+                      <div class="layer w-100">
+                        <h5 id="grid_progress" class="mB-5"></h5>
+                      </div>
+                      <div class="layer w-100 mT-15">
+                        <h5 id="est_time" class="mB-5"></h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               
 
 

@@ -85,8 +85,8 @@
         }, 300);
       });
 
-      function openWin() {
-    window.open("gmap_select.html");
+    function openWin(href_) {
+    window.open(href_);
 }
     </script>
 
@@ -529,13 +529,15 @@
                         </div>
                         <div class="layer w-100">
                         <div>
-                          <img src="select_area_files/files/select_area_bg.png" id="cropbox1" width="800" />
+                          <img src="select_area_files/files/select_area_bg.png" id="cropbox1" width="800"/>
+                          <!-- <canvas src="select_area_files/files/select_area_bg.png" id="cropbox1"></canvas> -->
                         </div>
                         <div id="latest_coordinates"></div>
                         <br>
                         <div class="peer">
                           <h4>Select co-rdinates on map: </h4>
-                        <button type="button" class="btn cur-p btn-success" href="gmap_select.html" onclick="openWin()">Map Selection</button>
+                        <button type="button" class="btn cur-p btn-success" href="gmap_select.html" onclick="openWin('gmap_select.html')">Map Selection</button>
+                        <button type="button" class="btn cur-p btn-success" href="/index.html" onclick="openWin('/index.html')">Go Back</button>
                         </div>
 
                         </div>
