@@ -6,6 +6,8 @@ var curr_level = -1;
 set_drone_data_flag = 0;
 set_grid_data_flag = 0;
 
+var new_data_flag = 0;
+
 var conn_status_json;
 var global_weather_status;
 
@@ -44,7 +46,7 @@ function start_mission() {
 function send_params() {
 
 	console.log('entered send_params');
-	document.getElementById('drone_tip').innerHTML = '<div class="alert alert-success" role="alert"><strong>Estimation:</strong> The selected area will be mapped by <strong>4</strong> drones in <strong>20 minutes</strong></div>';
+
 	paramsobj.height = document.getElementById("height").value;
 	paramsobj.overlap = document.getElementById("overlap").value;
 	paramsobj.no_drones = document.getElementById("no_drones").value;
@@ -66,7 +68,7 @@ function send_params() {
 	console.log(sim_params);
 
 	// ws2 = new WebSocket("ws://127.0.0.1:50011");
-	// ws2 = new WebSocket("ws://192.168.43.86:8080");
+	ws2 = new WebSocket("ws://192.168.137.217:50050");
 	ws.send(JSON.stringify(sim_params));
 }
 
@@ -81,13 +83,14 @@ function doLoad() {
 	if (location.href.split("/").slice(-1) == "index.html") {
 			check_mission_status();
 
-			// disp = document.getElementById("main-image");
-   //  		dispCtx = disp.getContext("2d");
-   //  		im = new Image();
-   //  		im.onload = function() {
-   //  		disp.setAttribute("width", im.width);
-   //  		disp.setAttribute("height", im.height);
-   //  		dispCtx.drawImage(this, 0, 0);
+			disp = document.getElementById("main-image");
+    		// dispCtx = disp.getContext("2d");
+    		// im = new Image();
+    		// im.onload = function() {
+    		// disp.setAttribute("width", im.width);
+    		// disp.setAttribute("height", im.height);
+    		// dispCtx.drawImage(this, 0, 0);
+    		// document.getElementById('curr-view-div').style.display = null;
    //  		base_image.src = 'main-curr-view.png';
    //  		base_image.onload = function(){
    // 			dispCtx.drawImage(base_image, 0, 0);
@@ -96,7 +99,8 @@ function doLoad() {
   		// };	
 	}
     
-    ws = new WebSocket("ws://172.20.10.2:50050");
+    ws = new WebSocket("ws://192.168.137.217:50001");
+    // ws = new WebSocket("ws://127.0.0.1:50009");
     // ws = new WebSocket("ws://172.20.10.2:8080");
    
     ws.onmessage = function (evt) {
@@ -171,7 +175,124 @@ function doLoad() {
 			document.getElementById('mission_ready_state').innerHTML ='<h6 class="lh-1">Status: <span style="color: #008975">READY</span></h6>';
 			// TODO: Get estimated number of drones and time from server
 			document.getElementById('drone_tip').innerHTML = '<div class="alert alert-success" role="alert"><strong>Estimation:</strong> The selected area will be mapped by <strong>4</strong> drones in <strong>20 minutes</strong></div>';
-    	}   
+    	}
+    	else if (data.type == "flight_times") {
+    		
+    			console.log("DRAWING FOR THE FIRST TIME")
+    			
+
+    			flight_data = data.flight_times;
+    		  	flightCanvas = document.getElementById("flightCanvas");
+
+				Chart.defaults.global.defaultFontFamily = "Lato";
+				Chart.defaults.global.defaultFontSize = 18;
+
+				flightData = {
+				  	labels: ["#1101","1102","1103","1104","1105"],
+				  	datasets: [{
+				    label: "Flight times",
+				    data: flight_data,
+				    lineTension: 0,
+				    fill: false,
+				    borderColor: 'orange',
+				    backgroundColor: 'transparent',
+				    borderDash: [5, 5],
+				    pointBorderColor: 'orange',
+				    pointBackgroundColor: 'rgba(255,150,0,0.5)',
+				    pointRadius: 5,
+				    pointHoverRadius: 10,
+				    pointHitRadius: 30,
+				    pointBorderWidth: 2,
+				    pointStyle: 'rectRounded'
+				  }]
+				};
+				
+
+				chartOptions = {
+				  legend: {
+				    display: true,
+				    position: 'top',
+				    labels: {
+				      boxWidth: 80,
+				      fontColor: 'black'
+				    }
+				  }
+				};
+
+				lineChart = new Chart(flightCanvas, {
+				  type: 'line',
+				  data: flightData,
+				  options: chartOptions
+				});
+    	
+
+
+// 				var flightData = new Chart(flightCanvas, {
+//    type: 'line',
+//    data: {
+//       labels: ["#1101","1102","1103","1104","1105"],
+//       datasets: [{
+//          label: "Flight times",
+// 				    data: flight_data,
+// 				    lineTension: 0,
+// 				    fill: false,
+// 				    borderColor: 'orange',
+// 				    backgroundColor: 'transparent',
+// 				    borderDash: [5, 5],
+// 				    pointBorderColor: 'orange',
+// 				    pointBackgroundColor: 'rgba(255,150,0,0.5)',
+// 				    pointRadius: 5,
+// 				    pointHoverRadius: 10,
+// 				    pointHitRadius: 30,
+// 				    pointBorderWidth: 2,
+// 				    pointStyle: 'rectRounded'
+//       }]
+//    },
+//    options: {
+//       responsive: false,
+//       legend: {
+//          position: "top"
+//       },
+//       scales: {
+//          yAxes: [{
+//             ticks: {
+//                fontColor: "rgba(255,255,255,0.5)",
+//                fontStyle: "bold",
+//                beginAtZero: true,
+//                maxTicksLimit: 5,
+//                padding: 20
+//             },
+//             gridLines: {
+//                drawTicks: false,
+//                display: false
+//             }
+
+//          }],
+//          xAxes: [{
+//             gridLines: {
+//                zeroLineColor: "rgba(255,255,255,0.5)"
+//             },
+//             ticks: {
+//                padding: 20,
+//                fontColor: "rgba(255,255,255,0.5)",
+//                fontStyle: "bold"
+//             }
+//          }]
+//       }
+//    }
+// });
+
+				
+
+// 				setTimeout(function() {
+//    addData(flightData, flight_data, 0);
+// }, 2000);
+
+// function addData(chart, data, datasetIndex) {
+//    chart.data.datasets[datasetIndex].data = data;
+//    chart.update();
+// }
+    	}
     }
     if (document.getElementById('weather_tip')){
     	console.log('entered weather');
@@ -186,7 +307,7 @@ function doLoad() {
     	});
     	
     }
-}
+  }
 
 function setDroneTableData(data) {
 	if (set_drone_data_flag == 0) {
