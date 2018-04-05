@@ -1,6 +1,6 @@
 # SIH 2018 Dashboard
 
-One stop web-interface for Application Scientists, built as a solution to ISRO's problem statement 'Formation Flying Simulation for UAV Acqyisition with Real Time Control' 
+One stop web-interface for Application Scientists, built as a solution to ISRO's problem statement 'Formation Flying Simulation for UAV Acquisition with Real Time Control' by MU-FALCON during Smart India Hackathon 2018
 
 The interface is based on this awesome admin dashboard by colorlib available here - https://colorlib.com/polygon/adminator/index.html
 
