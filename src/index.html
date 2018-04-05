@@ -84,10 +84,11 @@
     <div id='loader'>
       <div class="spinner"></div>
     </div>
+    <script type="text/javascript" src="reader.js"></script>
 
-    <script src="js/jquery.min.js"></script>
+ <!--    <script src="js/jquery.min.js"></script>
     <script src="js/jquery.Jcrop.min.js"></script>
-    <script src="js/jcrop_main.js"></script>
+    <script src="js/jcrop_main.js"></script> -->
     <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
 
     <script>
@@ -104,68 +105,9 @@
 
     </script>
 
-    <!-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWZ2IDESUpL3pF9dx73FO_vOy3JF7a2AY"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWZ2IDESUpL3pF9dx73FO_vOy3JF7a2AY"></script> -->
 
-    <script>
-function initMap() {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-                    
-    var drone_marker = '/assets/images/drone_marker.png';
-
-    // Display a map on the web page
-    map = new google.maps.Map(document.getElementById("mapCanvas"), mapOptions);
-    map.setTilt(50);
-        
-    // Multiple markers location, latitude, and longitude
-    var drone_data = [['#1103', 18.880175100000002, 77.9538767], ['#1104', 17.2478932, 81.6432353], ['1105', 17.4238352, 78.44456770000001], ['1106', 17.733475, 81.3333091], ['1107', 16.572983100000002, 80.35751280000001], ['#1108', 16.5061743, 80.6480153]];
-
-    var drone_info_window_content = [
-        ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'], ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'], ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'], ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'], ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'], ['<div class="info_content">' +'<h2>#1103</h2><h3>Alive</h3>' + '</div>'] ]; 
-        
-    // Add multiple markers to map
-    var infoWindow = new google.maps.InfoWindow(), marker, i;
     
-    // Place each marker on the map  
-    for( i = 0; i < drone_data.length; i++ ) {
-        var position = new google.maps.LatLng(drone_data[i][1], drone_data[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            animation: google.maps.Animation.DROP,
-            map: map,
-            icon: drone_marker,
-            title: drone_data[i][0]
-        });
-
-        // Add info window to marker    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(drone_info_window_content[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
-
-        // Center the map to fit all markers on the screen
-        map.fitBounds(bounds);
-    }
-
-    // Set zoom level
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(6);
-        google.maps.event.removeListener(boundsListener);
-    });
-    
-}
-// Load initialize function
-google.maps.event.addDomListener(window, 'load', initMap);
-</script>
 
 
     <!-- @App Content -->
@@ -403,7 +345,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
                           <!-- <canvas id="main-image" width="200"></canvas> -->
 
                           <!-- <img src="main-curr-view.png"> -->
-                          <!-- <img src="http://192.168.137.217:5000/calc" > -->
+                          <img id="2dsimulation">
                         </div>
                       </div>
 
@@ -414,13 +356,13 @@ google.maps.event.addDomListener(window, 'load', initMap);
                             </div>
                             <div class="layer w-100">
                               <div>
-                                <img src="select_area_files/files/select_area_bg.png" id="cropbox1" width="800"/>
+                                <img src="select_area_files/files/select_area_bg.png" id="cropbox1" width="600"/>
                           <!-- <canvas src="select_area_files/files/select_area_bg.png" id="cropbox1"></canvas> -->
                               </div>
                               <div id="latest_coordinates"></div>
                               <br>
                               <div class="peer">
-                                <h4>Select co-rdinates on map: </h4>
+                                <h4>Select co-ordinates on map: </h4>
                                 <button type="button" class="btn cur-p btn-success" href="gmap_select.html" onclick="openWin('gmap_select.html')">Map Selection</button>
                                 <!-- <button type="button" class="btn cur-p btn-success" href="/index.html" onclick="openWin('/index.html')">Go Back</button> -->
                               </div>
@@ -469,7 +411,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
                                   <div class="form-group row">
                                     <label for="no_drones" class="col-sm-6 col-form-label">No. Drones</label>
                                     <div class="col-sm-6">
-                                      <input type="text" class="form-control" id="no_drones" placeholder="00" value="5">
+                                      <input type="text" class="form-control" id="no_drones" placeholder="00" value="6">
                                     </div>
                                   </div>
                                   <div class="form-group row">
@@ -501,8 +443,7 @@ google.maps.event.addDomListener(window, 'load', initMap);
                   </div>
                 </div>
               </div>
-              <div class="masonry-item col-md-6">
-                <!-- #Monthly Stats ==================== -->
+              <!-- <div class="masonry-item col-md-6">
                 <div class="bd bgc-white">
                   <div class="layers">
                     <div class="layer w-100 pX-20 pT-20">
@@ -511,42 +452,92 @@ google.maps.event.addDomListener(window, 'load', initMap);
                     <div class="layer w-100 p-20">
                       <canvas id="line-chart" height="230"></canvas>
                     </div>
-<!--
-                    <div class="layer bdT p-20 w-100">
-                      <div class="peers ai-c jc-c gapX-20">
-                        <div class="peer">
-                          <span class="fsz-def fw-600 mR-10 c-grey-800">10% <i class="fa fa-level-up c-green-500"></i></span>
-                          <small class="c-grey-500 fw-600">APPL</small>
-                        </div>
-                        <div class="peer fw-600">
-                          <span class="fsz-def fw-600 mR-10 c-grey-800">2% <i class="fa fa-level-down c-red-500"></i></span>
-                          <small class="c-grey-500 fw-600">Average</small>
-                        </div>
-                        <div class="peer fw-600">
-                          <span class="fsz-def fw-600 mR-10 c-grey-800">15% <i class="fa fa-level-up c-green-500"></i></span>
-                          <small class="c-grey-500 fw-600">Sales</small>
-                        </div>
-                        <div class="peer fw-600">
-                          <span class="fsz-def fw-600 mR-10 c-grey-800">8% <i class="fa fa-level-down c-red-500"></i></span>
-                          <small class="c-grey-500 fw-600">Profit</small>
-                        </div>
-                      </div>
-                    </div>
--->
                   </div>
                 </div>
               </div>
+ -->
+            
+
 
               <div class="masonry-item col-md-6">
-                <!-- #Monthly Stats ==================== -->
+                <!-- #Sales Report ==================== -->
                 <div class="bd bgc-white">
                   <div class="layers">
-                    <div class="layer w-100 pX-20 pT-20">
-                      <h6 class="lh-1">Flight times</h6>
-                    </div>
                     <div class="layer w-100 p-20">
-                      <canvas id="flightCanvas" height="230"></canvas>
+                      <h5 class="lh-1">Flight Times</h5>
+                      <h6 class="lh-1">Time to workload</h6>
                     </div>
+                    <!-- <div class="layer w-100"> -->
+<!--
+                      <div class="bgc-orange-500 c-white p-20">
+                        <div class="peers ai-c jc-sb gap-40">
+                          <div class="peer peer-greed">
+                            <h3>Current Status</h3>
+                          </div>
+                          <div class="peer">
+                            <h3 class="text-right">Ready</h3>
+                          </div>
+                        </div>
+                      </div>
+-->
+                      <div class="table-responsive p-20">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th class=" bdwT-0">Drone ID</th>
+                              <th class=" bdwT-0">Flight Time </th>
+                            </tr>
+                          </thead>
+                          <tbody id="flight_time_table">
+                            <!-- <tr>
+                              <td class="fw-600">#11001</td>
+                              <td><span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Available</span></td>
+                              <td>(12.4234,14.3242)</td>
+                              <td>0m32s</td>
+                            </tr>
+                            <tr>
+                              <td class="fw-600">#11002</td>
+                              <td><span class="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">Unavailable</span></td>
+                              <td>(13.6434,16.6332)</td>
+                                <td>4m20s</td>
+                            </tr>
+                            <tr>
+                              <td class="fw-600">#11003</td>
+                              <td><span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Available</span></td>
+                              <td>(19.3629,18.9273)</td>
+                                <td>0m30s</td>
+                            </tr>
+                            <tr>
+                              <td class="fw-600">#11004</td>
+                              <td><span class="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">Unavailable</span></td>
+                              <td>(12.9087,20.8423)</td>
+                                <td>3m39s</td>
+                            </tr>
+                            <tr>
+                              <td class="fw-600">#11005</td>
+                              <td><span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Available</span></td>
+                              <td>(23.8735,16.2573)</td>
+                                <td>0m28s</td>
+                            </tr>
+                            <tr>
+                              <td class="fw-600">#11006</td>
+                              <td><span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Available</span></td>
+                              <td>(17.3521,17.4563)</td>
+                                <td>0m20s</td>
+                            </tr> -->
+                           <!--  <tr>
+                              <td class="fw-600">#11007</td>
+                              <td><span class="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Available</span></td>
+                              <td>(19.6473,17.8731)</td>
+                                <td>0m36s</td>
+                            </tr> -->
+                          </tbody>
+                        </table>
+                       <!-- </div> -->
+                    </div>
+                  </div>
+                  <div class="ta-c bdT w-100 p-20">
+                    <a href="/signup.html">Check Map</a>
                   </div>
                 </div>
               </div>
@@ -681,17 +672,17 @@ google.maps.event.addDomListener(window, 'load', initMap);
                   </div>
                 </div>
               </div>
-              <div class="masonry-item col-md-6">
+             <!--  <div class="masonry-item col-md-6">
                 <div class="bgc-white p-20 bd">
                   <h6 class="c-grey-900"> Real Time Swarm Status</h6>
                   <div class="mT-30">
-                    <!-- Progress Bars -->
+                    
                     <div id="mapContainer">
                           <div id="mapCanvas"></div>
                         </div> 
                   </div>
                 </div>
-              </div>
+              </div> -->
             <!-- </div> -->
              <!--  <div class="masonry-item col-md-5">
                 <div class="bgc-white p-20 bd">
@@ -718,11 +709,18 @@ google.maps.event.addDomListener(window, 'load', initMap);
         </footer>
       </div>
     </div>
+
     <script type="text/javascript" src="reader.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.Jcrop.min.js"></script>
+<script src="js/jcrop_main.js"></script>
+<script type="text/javascript" src="reader.js"></script>
+
+    <!-- <script type="text/javascript" src="reader.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery.Jcrop.min.js"></script>
-    <script src="js/jcrop_main.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="reader.js"></script>
+    <script src="js/jcrop_main.js"></script> -->
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script> -->
+    <!-- <script type="text/javascript" src="reader.js"></script> -->
   </body>
 </html>

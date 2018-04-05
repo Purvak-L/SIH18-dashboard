@@ -22,21 +22,42 @@ export default (function () {
           borderColor          : COLORS['blue-500'],
           pointBackgroundColor : COLORS['blue-700'],
           borderWidth          : 1,
-          data                 : [70, 75, 85, 70, 75, 85, 70],
+          data                 : [17.5, 18, 17, 17.5, 18, 18, 17],
         }, {
           label                : '1103',
           backgroundColor      : 'rgba(0, 102, 204, 0.5)',
           borderColor          : COLORS['green-500'],
           pointBackgroundColor : COLORS['green-700'],
           borderWidth          : 1,
-          data                 : [40,50,60,40,30,45,60],
+          data                 : [17,19,20,17.5,18,18,17.5],
         }, {
           label                : '1104',
           backgroundColor      : 'rgba(255, 51, 51, 0.5)',
           borderColor          : COLORS['red-500'],
           pointBackgroundColor : COLORS['red-700'],
           borderWidth          : 1,
-          data                 : [80,80,70,50,60,75,60],
+          data                 : [17.5,17,18,17.5,17,17.5,17.5],
+        }, {
+          label                : '1105',
+          backgroundColor      : 'rgba(255, 51, 51, 0.5)',
+          borderColor          : COLORS['red-500'],
+          pointBackgroundColor : COLORS['red-700'],
+          borderWidth          : 1,
+          data                 : [17,17.5,18,17.5,17.5,17.2,18.5],
+        }, {
+          label                : '1106',
+          backgroundColor      : 'rgba(255, 51, 51, 0.5)',
+          borderColor          : COLORS['red-500'],
+          pointBackgroundColor : COLORS['red-700'],
+          borderWidth          : 1,
+          data                 : [16.5,19,18.1,17.9,17,17.2,18.5],
+        }, {
+          label                : '1107',
+          backgroundColor      : 'rgba(255, 51, 51, 0.5)',
+          borderColor          : COLORS['red-500'],
+          pointBackgroundColor : COLORS['red-700'],
+          borderWidth          : 1,
+          data                 : [18.5,17.5,17.5,17,18,18.5,18.5],
         }],
       },
 
@@ -45,6 +66,25 @@ export default (function () {
           display: false,
         },
       },
+
+      scales: {
+                    xAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Drone ID'
+                            }
+                        }],
+                    yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 10,
+                                stepValue: 5,
+                                max: 200
+                            }
+                        }]
+                }
 
     });
   }

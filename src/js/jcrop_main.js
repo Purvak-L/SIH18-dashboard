@@ -21,10 +21,14 @@ function updateCoords(c) {
     // localStorage.setItem("y1",c.y);
     // localStorage.setItem("x2",c.x2);
     // localStorage.setItem("y2",c.y2);
-    sx = (c.x)*(1920/800);
-    sy = (c.y)*(1080/500);
-    sx2 = (c.x2)*(1920/800);
-    sy2 = (c.y2)*(1080/500);
+    sx = (c.x)/6;
+    sy = (c.y)/6;
+    sx2 = (c.x2)/6;
+    sy2 = (c.y2)/6;
+    //sx = (c.x)*(1920/800);
+    // sy = (c.y)*(1080/500);
+    // sx2 = (c.x2)*(1920/800);
+    // sy2 = (c.y2)*(1080/500);
     console.log("Scaled Coordinates: "+sx+":"+sy+":"+sx2+":"+sy2);
     localStorage.setItem("x1",sx);
     localStorage.setItem("y1",sy);

@@ -31,7 +31,7 @@ function check_mission_status() {
 		console.log('entered check mission status');
 		document.getElementById('mission_button').innerHTML = '<button type="button" class="btn cur-p btn-danger"></button>';
 		document.getElementById('mission_ready_state').innerHTML ='<h6 class="lh-1">Status: <span style="color: #ff3f80">NOT READY</span></h6>';
-		document.getElementById('drone_tip').innerHTML = '<div class="alert alert-danger" role="alert">Please submit all params to get estimates on <strong>time</strong> and <strong>number of drones</strong></div>';
+		// document.getElementById('drone_tip').innerHTML = '<div class="alert alert-danger" role="alert">Please submit all params to get estimates on <strong>time</strong> and <strong>number of drones</strong></div>';
 		
 	}
 }
@@ -41,6 +41,7 @@ function start_mission() {
 		"type" : "start"
 	}
 	ws.send(JSON.stringify(start_mission));
+	document.getElementById('2dsimulation').src="http://192.168.137.217:5000/calc";
 }
 
 function send_params() {
@@ -67,8 +68,6 @@ function send_params() {
 
 	console.log(sim_params);
 
-	// ws2 = new WebSocket("ws://127.0.0.1:50011");
-	ws2 = new WebSocket("ws://192.168.137.217:50050");
 	ws.send(JSON.stringify(sim_params));
 }
 
@@ -99,9 +98,7 @@ function doLoad() {
   		// };	
 	}
     
-    ws = new WebSocket("ws://192.168.137.217:50001");
-    // ws = new WebSocket("ws://127.0.0.1:50009");
-    // ws = new WebSocket("ws://172.20.10.2:8080");
+    ws = new WebSocket("ws://192.168.137.217:50090");
    
     ws.onmessage = function (evt) {
     	console.log(evt.data)
@@ -112,7 +109,6 @@ function doLoad() {
     	if (data.type == "drones") {
     		console.log(data);
     		if (location.href.split("/").slice(-1) == "index.html") {
-
     			setDroneTableData(data);
     			set_drone_data_flag = 1;
     		}
@@ -159,7 +155,7 @@ function doLoad() {
     		// aria-valuenow="50"
     		// document.getElementById('grid_exploration_percent').setAttribute("data-percent","50"); 
     		// document.getElementById('grid_progress').setAttribute("aria-valuenow","50"); 
-    		document.getElementById("grid_progress").innerHTML = "Grid exploration: "+percent_complete.toString()+"%";
+    		document.getElementById("drone_tip").innerHTML = '<div class="alert alert-success" role="alert">Grid exploration: <span style="color: #ff3f80">'+percent_complete.toString()+'%</span></div>';
     		document.getElementById("est_time").innerHTML = "ETA: "+average;
     		// document.getElementById('grid_exploration_div').innerHTML = '<div id="grid_exploration_percent" class="easy-pie-chart" data-size='+percent_complete.toString()+'data-bar-color=\'#f44336\'><span></span></div><h6 class="fsz-sm">New Users</h6>'
     	}
@@ -174,124 +170,11 @@ function doLoad() {
     		document.getElementById('mission_button').innerHTML = '<button type="button" class="btn cur-p btn-success" onclick="start_mission()">Start mission</button>';
 			document.getElementById('mission_ready_state').innerHTML ='<h6 class="lh-1">Status: <span style="color: #008975">READY</span></h6>';
 			// TODO: Get estimated number of drones and time from server
-			document.getElementById('drone_tip').innerHTML = '<div class="alert alert-success" role="alert"><strong>Estimation:</strong> The selected area will be mapped by <strong>4</strong> drones in <strong>20 minutes</strong></div>';
+			// document.getElementById('drone_tip').innerHTML = '<div class="alert alert-success" role="alert"><strong>Estimation:</strong> The selected area will be mapped by <strong>4</strong> drones in <strong>20 minutes</strong></div>';
+
     	}
-    	else if (data.type == "flight_times") {
-    		
-    			console.log("DRAWING FOR THE FIRST TIME")
-    			
-
-    			flight_data = data.flight_times;
-    		  	flightCanvas = document.getElementById("flightCanvas");
-
-				Chart.defaults.global.defaultFontFamily = "Lato";
-				Chart.defaults.global.defaultFontSize = 18;
-
-				flightData = {
-				  	labels: ["#1101","1102","1103","1104","1105"],
-				  	datasets: [{
-				    label: "Flight times",
-				    data: flight_data,
-				    lineTension: 0,
-				    fill: false,
-				    borderColor: 'orange',
-				    backgroundColor: 'transparent',
-				    borderDash: [5, 5],
-				    pointBorderColor: 'orange',
-				    pointBackgroundColor: 'rgba(255,150,0,0.5)',
-				    pointRadius: 5,
-				    pointHoverRadius: 10,
-				    pointHitRadius: 30,
-				    pointBorderWidth: 2,
-				    pointStyle: 'rectRounded'
-				  }]
-				};
-				
-
-				chartOptions = {
-				  legend: {
-				    display: true,
-				    position: 'top',
-				    labels: {
-				      boxWidth: 80,
-				      fontColor: 'black'
-				    }
-				  }
-				};
-
-				lineChart = new Chart(flightCanvas, {
-				  type: 'line',
-				  data: flightData,
-				  options: chartOptions
-				});
-    	
-
-
-// 				var flightData = new Chart(flightCanvas, {
-//    type: 'line',
-//    data: {
-//       labels: ["#1101","1102","1103","1104","1105"],
-//       datasets: [{
-//          label: "Flight times",
-// 				    data: flight_data,
-// 				    lineTension: 0,
-// 				    fill: false,
-// 				    borderColor: 'orange',
-// 				    backgroundColor: 'transparent',
-// 				    borderDash: [5, 5],
-// 				    pointBorderColor: 'orange',
-// 				    pointBackgroundColor: 'rgba(255,150,0,0.5)',
-// 				    pointRadius: 5,
-// 				    pointHoverRadius: 10,
-// 				    pointHitRadius: 30,
-// 				    pointBorderWidth: 2,
-// 				    pointStyle: 'rectRounded'
-//       }]
-//    },
-//    options: {
-//       responsive: false,
-//       legend: {
-//          position: "top"
-//       },
-//       scales: {
-//          yAxes: [{
-//             ticks: {
-//                fontColor: "rgba(255,255,255,0.5)",
-//                fontStyle: "bold",
-//                beginAtZero: true,
-//                maxTicksLimit: 5,
-//                padding: 20
-//             },
-//             gridLines: {
-//                drawTicks: false,
-//                display: false
-//             }
-
-//          }],
-//          xAxes: [{
-//             gridLines: {
-//                zeroLineColor: "rgba(255,255,255,0.5)"
-//             },
-//             ticks: {
-//                padding: 20,
-//                fontColor: "rgba(255,255,255,0.5)",
-//                fontStyle: "bold"
-//             }
-//          }]
-//       }
-//    }
-// });
-
-				
-
-// 				setTimeout(function() {
-//    addData(flightData, flight_data, 0);
-// }, 2000);
-
-// function addData(chart, data, datasetIndex) {
-//    chart.data.datasets[datasetIndex].data = data;
-//    chart.update();
-// }
+    	else if (data.type == "flight_times") {    		
+    		setFlightTable(data);
     	}
     }
     if (document.getElementById('weather_tip')){
@@ -350,6 +233,18 @@ function setGridTableData(data) {
 			grid_data_str += temp_str;
 		}
 	document.getElementById("grid_table_body").innerHTML = grid_data_str;
+}
+
+function setFlightTable(data) {
+	document.getElementById("flight_time_table").innerHTML = '';
+	flight_data_str = '';
+		for (var i = data.flight_times.length - 1; i >= 0; i--) {
+			drone_id = "#110"+i;
+			flight_time = data.flight_times[i];
+			temp_str = "<tr><td>"+drone_id+"</td><td>"+flight_time+"</td></tr>";
+			flight_data_str += temp_str;
+		}
+	document.getElementById("flight_time_table").innerHTML = flight_data_str;
 }
 
 function getWeatherStatus(callback) {

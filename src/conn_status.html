@@ -23,7 +23,7 @@
     function doLoad() {
     
     // ws = new WebSocket("ws://192.168.43.86:50008");
-    ws = new WebSocket("ws://127.0.0.1:50011");
+    ws = new WebSocket("ws://192.168.137.217:50090");
     ws.onmessage = function (evt) {
         // console.log(evt.data);
         data = JSON.parse(evt.data);
